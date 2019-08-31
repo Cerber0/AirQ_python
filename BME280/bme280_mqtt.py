@@ -19,7 +19,7 @@
 #
 #--------------------------------------
 import smbus
-import time
+import timei
 import thingspeak
 import sys
 import Adafruit_DHT
@@ -40,7 +40,7 @@ from ctypes import c_ubyte
 DEVICE = 0x76 # Default device I2C address
 THINGSPEAKKEY = '0UJ71LEQ5KZJ7PA5'
 THINGSPEAKURL = 'https://api.thingspeak.com'
-PARTCPIN = 27 
+PARTCPIN = 27
 #particulas = 0
 bus = smbus.SMBus(1) # Rev 2 Pi, Pi 2 & Pi 3 uses bus 1
                      # Rev 1 Pi uses bus 0
@@ -218,7 +218,7 @@ def readBME280All(addr=DEVICE):
 
   # Wait in ms (Datasheet Appendix B: Measurement time and current calculation)
   wait_time = 1.25 + (2.3 * OVERSAMPLE_TEMP) + ((2.3 * OVERSAMPLE_PRES) + 0.575) + ((2.3 * OVERSAMPLE_HUM)+0.575)
-  time.sleep(wait_time/1000)  # Wait the required time  
+  time.sleep(wait_time/1000)  # Wait the required time
   # Read temperature/pressure/humidity
   data = bus.read_i2c_block_data(addr, REG_DATA, 8)
   pres_raw = (data[0] << 12) | (data[1] << 4) | (data[2] >> 4)
@@ -284,7 +284,7 @@ def readDHT22(sensor,pin):
   # If this happens try again!
   if humidity is not None and temperature is not None:
 #      print('Temp={0:0.1f}C  Humidity={1:0.1f}%'.format(temperature, humidity))
-      return temperature,humidity  
+      return temperature,humidity
   else:
       print('Failed to get reading. Try again!')
       sys.exit(1)
@@ -334,7 +334,7 @@ def main():
     client.publish("/casa/AirQ/temperature", temperature)
     client.publish("/casa/AirQ/pressure", pressure)
     time.sleep(10)
-    
+
   exit(0)
 
 if __name__=="__main__":
